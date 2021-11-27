@@ -1,0 +1,10 @@
+{
+    "conexion":{
+        "server" = "localhost",
+        "user" = "root",
+        "pass" = "",
+        "bd" = "usuarios",
+        "port" = "3306"
+
+    }
+}
