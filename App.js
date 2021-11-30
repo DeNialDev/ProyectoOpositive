@@ -43,11 +43,11 @@ function LoginScreen({ navigation }) {
     )
     console.log(response.data[0].Message)
     if (response.data[0].Message == 'Success') {
-      alert("Logeado")
+      alert("Bienvenido")
       navigation.navigate('HomeScreen')
 
     } else {
-      alert("Error")
+      alert("Ha ocurrido un error inesperado")
     }
 
   }
@@ -62,12 +62,14 @@ function LoginScreen({ navigation }) {
         style={stylesLog.inputStyles}
         placeholder="Nombre de usuario"
         value={email}
+        
         onChangeText={(text) => setEmail(text)}
       />
       <TextInput
         style={stylesLog.inputStyles}
         placeholder="Contraseña"
         value={password}
+        secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
       />
       <TouchableOpacity onPress={handleLogin}>
@@ -78,7 +80,7 @@ function LoginScreen({ navigation }) {
     </View>
   )
 }
-function RegisterScreen() {
+function RegisterScreen({navigation}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
@@ -100,7 +102,8 @@ function RegisterScreen() {
     )
     console.log(response)
     if (response.status == 200) {
-      alert("Bienvenido")
+      alert("Bienvenido/a " + email)
+      navigation.navigate('LoginScreen')
     }
   }
   return (
@@ -110,7 +113,7 @@ function RegisterScreen() {
       </Text>
       <TextInput
         style={stylesReg.inputStyles}
-        placeholder="Email"
+        placeholder="Email/NickName"
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
@@ -118,6 +121,7 @@ function RegisterScreen() {
         style={stylesReg.inputStyles}
         placeholder="Contraseña"
         value={password}
+        secureTextEntry={true}
         onChangeText={(text) => setPassword(text)}
       />
       <TextInput
@@ -152,7 +156,8 @@ function RegisterScreen() {
     </View>
   );
 }
-function HomeScreen() {
+
+function HomeScreen({navigation}) {
   const [users, setUsers] = useState([])
 
 
@@ -171,19 +176,29 @@ function HomeScreen() {
   return (
     <View>
       <Text style={styles.titleMain}>Lista de donantes</Text>
+      <Text style={styles.encabezado}>Nombre                 Tipo de Sangre</Text>
       
       {users.map((users, id) =>(
+        
         <TouchableOpacity onPress={()=> alert('Numero de contacto ' + users.phone)}>
-          <Text key={users.id} style={styles.textList}>
-          {users.name} {users.sName}  {users.bloodType} 
+          a
+          <Text key={id} style={styles.textList}>
+          {users.name} {users.sName}                             {users.bloodType} 
           </Text>
         </TouchableOpacity>
         
         
       ))}
+      <TouchableOpacity onPress={()=> navigation.navigate('MainScreen')}>
+        <Text style={stylesReg.buttonReg} fontSize="xs">
+          Cerrar sesion
+        </Text>
+      </TouchableOpacity>
+      
     </View>
   )
 }
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -212,7 +227,7 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     color: '#fc868e',
     alignSelf: 'center',
-    marginBottom: 50
+    
   },
   titleMain: {
     fontSize: 30,
@@ -229,7 +244,11 @@ const styles = StyleSheet.create({
     borderColor: '#fc757e',
     marginBottom: 10,
     marginTop: 10,
-    padding: 10
+    padding: 10,
+    borderRadius: 30,
+    width: 500, 
+    textAlign: 'justify',
+  
   },
   buttonLog: {
     marginTop: 10,
@@ -240,6 +259,16 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 40,
     marginHorizontal: 50
+  },
+  encabezado:{
+    fontSize: 25,
+    fontWeight: '900',
+    color: '#fc868e',
+    alignSelf: 'flex-start',
+    marginTop: 50 ,
+    marginBottom: 10,
+    marginLeft: 25,
+    textAlign: 'justify',
   }
 });
 const stylesLog = StyleSheet.create({
@@ -277,7 +306,7 @@ const stylesLog = StyleSheet.create({
 const stylesReg = StyleSheet.create({
   containerReg: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 200,
     paddingHorizontal: 50
   },
   titleReg: {
